@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'mrb_parser'
+
+def usage
+  abort "usage: mrb_parser [-d] <mrb file>"
+end
+
+def main
+  if ARGV.size < 1 or ARGV.size > 2
+    usage
+  end
+
+  verbose = nil
+  filename = ARGV[0]
+  if filename == "-d"
+    filename = ARGV[1]
+    verbose = true
+  end
+
+  if !File.exist? filename
+    abort "#{filename}: file not found"
+  end
+
+  parser = MrbParser.new(filename)
+  parser.verbose = verbose
+  parser.parse
+  parser.dump
+end
+
+main
