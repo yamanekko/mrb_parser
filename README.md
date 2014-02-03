@@ -27,6 +27,125 @@ To show more information, with ``-d`` option:
 
     $ mrb_parser -d sample.mrb
 
+Example:
+
+    $ cat hello.rb
+    def hello(msg)
+      p "Hello, #{msg}"
+    end
+    
+    hello("world")
+    $ mrbc -g hello.rb
+    $ mrb_parser  hello.mrb 
+    *** BINARY HEADER ***
+    secID: RITE
+    ver  : 0002
+    crc  : 0xe756 (true)
+    size : 0x00000101
+    compiler:
+      name: MATZ
+      ver : 0000
+    *** ***
+    *** IREP SECTION ***
+    secID : IREP
+    size  : 145
+    vm ver: 0000
+      *** IREP RECORD ***
+      locals: 1
+      regs  : 3
+      iseqs : 7
+        code: 00800048
+              000 OP_TCLASS	R1
+        code: 010000c0
+              001 OP_LAMBDA	R2	I(+0)	1
+        code: 00800046
+              002 OP_METHOD	R1	:hello
+        code: 00800006
+              003 OP_LOADSELF	R1
+        code: 0100003d
+              004 OP_STRING	R2	world
+        code: 008000a0
+              005 OP_SEND	R1	:hello	1
+        code: 0000004a
+              006 OP_STOP
+      pools : 1
+        pool: "world"
+      syms  : 1
+        sym: "hello"
+      ireps : 1
+        *** IREP RECORD ***
+        locals: 3
+        regs  : 6
+        iseqs : 7
+          code: 02000026
+                000 OP_ENTER	1:0:0:0:0:0:0
+          code: 01800006
+                001 OP_LOADSELF	R3
+          code: 0200003d
+                002 OP_STRING	R4	Hello, 
+          code: 02804001
+                003 OP_MOVE	R5	R1
+          code: 0201403e
+                004 OP_STRCAT	R4	R5
+          code: 018000a0
+                005 OP_SEND	R3	:p	1
+          code: 01800029
+                006 OP_RETURN	R3
+        pools : 2
+          pool: "Hello, "
+          pool: ""
+        syms  : 1
+          sym: "p"
+        ireps : 0
+        *** ***
+      *** ***
+    *** ***
+    *** DEBUG SECTION ***
+    secID: DBG
+    size : 82
+    files: 1
+      filename: hello.rb
+      *** DEBUG INFO ***
+      count: 31
+      files: 1
+        *** DEBUG INFO FILE ***
+        start: 0
+        fname: hello.rb
+        line type: 0 (ARY)
+        lines: 7
+          line: 3
+          line: 3
+          line: 3
+          line: 5
+          line: 5
+          line: 5
+          line: 5
+        *** ***
+        *** DEBUG INFO ***
+        count: 31
+        files: 1
+          *** DEBUG INFO FILE ***
+          start: 0
+          fname: hello.rb
+          line type: 0 (ARY)
+          lines: 7
+            line: 3
+            line: 2
+            line: 2
+            line: 2
+            line: 2
+            line: 2
+            line: 2
+          *** ***
+        *** ***
+      *** ***
+    *** ***
+    *** END SECTION ***
+    secID: END
+    size : 8
+    *** ***
+
+
 ## TODO
 
 * support LINENO section (current implementation is broken)
