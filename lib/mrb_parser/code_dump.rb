@@ -4,24 +4,24 @@ class MrbParser
     MAXARG_Bx = 0xffff
     MAXARG_sBx = (MAXARG_Bx>>1)    ## `sBx' is signed
 
-    OP_NOP   = 0     # /*                                                             */
-    OP_MOVE  = 1     # /*      A B     R(A) := R(B)                                    */
-    OP_LOADL = 2     # /*     A Bx    R(A) := Lit(Bx)                                 */
-    OP_LOADI = 3     # /*     A sBx   R(A) := sBx                                     */
-    OP_LOADSYM = 4   # /*   A Bx    R(A) := Sym(Bx)                                 */
-    OP_LOADNIL = 5   # /*   A       R(A) := nil                                     */
+    OP_NOP   = 0     # /*                                                          */
+    OP_MOVE  = 1     # /*  A B     R(A) := R(B)                                    */
+    OP_LOADL = 2     # /*  A Bx    R(A) := Lit(Bx)                                 */
+    OP_LOADI = 3     # /*  A sBx   R(A) := sBx                                     */
+    OP_LOADSYM = 4   # /*  A Bx    R(A) := Sym(Bx)                                 */
+    OP_LOADNIL = 5   # /*  A       R(A) := nil                                     */
     OP_LOADSELF = 6  # /*  A       R(A) := self                                    */
-    OP_LOADT = 7     # /*     A       R(A) := true                                    */
-    OP_LOADF = 8     # /*     A       R(A) := false                                   */
+    OP_LOADT = 7     # /*  A       R(A) := true                                    */
+    OP_LOADF = 8     # /*  A       R(A) := false                                   */
 
-    OP_GETGLOBAL = 9 # /* A Bx    R(A) := getglobal(Sym(Bx))                      */
-    OP_SETGLOBAL =10 # /* A Bx    setglobal(Sym(Bx), R(A))                        */
-    OP_GETSPECIAL=11 # /*A Bx    R(A) := Special[Bx]                             */
-    OP_SETSPECIAL=12 # /*A Bx    Special[Bx] := R(A)                             */
-    OP_GETIV = 13    # /*     A Bx    R(A) := ivget(Sym(Bx))                          */
-    OP_SETIV = 14    # /*     A Bx    ivset(Sym(Bx),R(A))                             */
-    OP_GETCV = 15    # /*     A Bx    R(A) := cvget(Sym(Bx))                          */
-    OP_SETCV = 16    # /*     A Bx    cvset(Sym(Bx),R(A))                             */
+    OP_GETGLOBAL = 9 # /*  A Bx    R(A) := getglobal(Sym(Bx))                      */
+    OP_SETGLOBAL =10 # /*  A Bx    setglobal(Sym(Bx), R(A))                        */
+    OP_GETSPECIAL=11 # /*  A Bx    R(A) := Special[Bx]                             */
+    OP_SETSPECIAL=12 # /*  A Bx    Special[Bx] := R(A)                             */
+    OP_GETIV = 13    # /*  A Bx    R(A) := ivget(Sym(Bx))                          */
+    OP_SETIV = 14    # /*  A Bx    ivset(Sym(Bx),R(A))                             */
+    OP_GETCV = 15    # /*  A Bx    R(A) := cvget(Sym(Bx))                          */
+    OP_SETCV = 16    # /*  A Bx    cvset(Sym(Bx),R(A))                             */
     OP_GETCONST = 17 # /*  A Bx    R(A) := constget(Sym(Bx))                       */
     OP_SETCONST = 18 # /*  A Bx    constset(Sym(Bx),R(A))                          */
     OP_GETMCNST = 19 # /*  A Bx    R(A) := R(A)::Sym(B)                            */
@@ -29,73 +29,73 @@ class MrbParser
     OP_GETUPVAR = 21 # /*  A B C   R(A) := uvget(B,C)                              */
     OP_SETUPVAR = 22 # /*  A B C   uvset(B,C,R(A))                                 */
 
-    OP_JMP = 23      # /*       sBx     pc+=sBx                                         */
-    OP_JMPIF = 24    # /*     A sBx   if R(A) pc+=sBx                                 */
-    OP_JMPNOT = 25   # /*    A sBx   if !R(A) pc+=sBx                                */
-    OP_ONERR = 26    # /*     sBx     rescue_push(pc+sBx)                             */
-    OP_RESCUE = 27   # /*    A       clear(exc); R(A) := exception (ignore when A=0) */
-    OP_POPERR = 28   # /*    A       A.times{rescue_pop()}                           */
-    OP_RAISE = 29    # /*     A       raise(R(A))                                     */
-    OP_EPUSH = 30    # /*     Bx      ensure_push(SEQ[Bx])                            */
-    OP_EPOP = 31     # /*      A       A.times{ensure_pop().call}                      */
+    OP_JMP = 23      # /*  sBx     pc+=sBx                                         */
+    OP_JMPIF = 24    # /*  A sBx   if R(A) pc+=sBx                                 */
+    OP_JMPNOT = 25   # /*  A sBx   if !R(A) pc+=sBx                                */
+    OP_ONERR = 26    # /*  sBx     rescue_push(pc+sBx)                             */
+    OP_RESCUE = 27   # /*  A       clear(exc); R(A) := exception (ignore when A=0) */
+    OP_POPERR = 28   # /*  A       A.times{rescue_pop()}                           */
+    OP_RAISE = 29    # /*  A       raise(R(A))                                     */
+    OP_EPUSH = 30    # /*  Bx      ensure_push(SEQ[Bx])                            */
+    OP_EPOP = 31     # /*  A       A.times{ensure_pop().call}                      */
 
-    OP_SEND = 32     # /*      A B C   R(A) := call(R(A),mSym(B),R(A+1),...,R(A+C))    */
-    OP_SENDB = 33    # /*     A B C   R(A) := call(R(A),mSym(B),R(A+1),...,R(A+C),&R(A+C+1))*/
-    OP_FSEND = 34    # /*     A B C   R(A) := fcall(R(A),mSym(B),R(A+1),...,R(A+C-1)) */
-    OP_CALL = 35     # /*      A B C   R(A) := self.call(R(A),.., R(A+C))              */
-    OP_SUPER = 36    # /*     A B C   R(A) := super(R(A+1),... ,R(A+C-1))             */
-    OP_ARGARY = 37   # /*    A Bx    R(A) := argument array (16=6:1:5:4)             */
-    OP_ENTER = 38    # /*     Ax      arg setup according to flags (24=5:5:1:5:5:1:1) */
-    OP_KARG = 39     # /*      A B C   R(A) := kdict[mSym(B)]; if C kdict.rm(mSym(B))  */
-    OP_KDICT = 40    # /*     A C     R(A) := kdict                                   */
+    OP_SEND = 32     # /*  A B C   R(A) := call(R(A),mSym(B),R(A+1),...,R(A+C))    */
+    OP_SENDB = 33    # /*  A B C   R(A) := call(R(A),mSym(B),R(A+1),...,R(A+C),&R(A+C+1))*/
+    OP_FSEND = 34    # /*  A B C   R(A) := fcall(R(A),mSym(B),R(A+1),...,R(A+C-1)) */
+    OP_CALL = 35     # /*  A B C   R(A) := self.call(R(A),.., R(A+C))              */
+    OP_SUPER = 36    # /*  A B C   R(A) := super(R(A+1),... ,R(A+C-1))             */
+    OP_ARGARY = 37   # /*  A Bx    R(A) := argument array (16=6:1:5:4)             */
+    OP_ENTER = 38    # /*  Ax      arg setup according to flags (24=5:5:1:5:5:1:1) */
+    OP_KARG = 39     # /*  A B C   R(A) := kdict[mSym(B)]; if C kdict.rm(mSym(B))  */
+    OP_KDICT = 40    # /*  A C     R(A) := kdict                                   */
 
-    OP_RETURN = 41   # /*    A B     return R(A) (B=normal,in-block return/break)    */
+    OP_RETURN = 41   # /*  A B     return R(A) (B=normal,in-block return/break)    */
     OP_TAILCALL = 42 # /*  A B C   return call(R(A),mSym(B),*R(C))                 */
-    OP_BLKPUSH = 43  # /*   A Bx    R(A) := block (16=6:1:5:4)                      */
+    OP_BLKPUSH = 43  # /*  A Bx    R(A) := block (16=6:1:5:4)                      */
 
-    OP_ADD = 44      # /*       A B C   R(A) := R(A)+R(A+1) (mSyms[B]=:+,C=1)           */
-    OP_ADDI = 45     # /*      A B C   R(A) := R(A)+C (mSyms[B]=:+)                    */
-    OP_SUB = 46      # /*       A B C   R(A) := R(A)-R(A+1) (mSyms[B]=:-,C=1)           */
-    OP_SUBI = 47     # /*      A B C   R(A) := R(A)-C (mSyms[B]=:-)                    */
-    OP_MUL = 48      # /*       A B C   R(A) := R(A)*R(A+1) (mSyms[B]=:*,C=1)           */
-    OP_DIV = 49      # /*       A B C   R(A) := R(A)/R(A+1) (mSyms[B]=:/,C=1)           */
-    OP_EQ = 50       # /*        A B C   R(A) := R(A)==R(A+1) (mSyms[B]=:==,C=1)         */
-    OP_LT = 51       # /*        A B C   R(A) := R(A)<R(A+1)  (mSyms[B]=:<,C=1)          */
-    OP_LE = 52       # /*        A B C   R(A) := R(A)<=R(A+1) (mSyms[B]=:<=,C=1)         */
-    OP_GT = 53       # /*        A B C   R(A) := R(A)>R(A+1)  (mSyms[B]=:>,C=1)          */
-    OP_GE = 54       # /*        A B C   R(A) := R(A)>=R(A+1) (mSyms[B]=:>=,C=1)         */
+    OP_ADD = 44      # /*  A B C   R(A) := R(A)+R(A+1) (mSyms[B]=:+,C=1)           */
+    OP_ADDI = 45     # /*  A B C   R(A) := R(A)+C (mSyms[B]=:+)                    */
+    OP_SUB = 46      # /*  A B C   R(A) := R(A)-R(A+1) (mSyms[B]=:-,C=1)           */
+    OP_SUBI = 47     # /*  A B C   R(A) := R(A)-C (mSyms[B]=:-)                    */
+    OP_MUL = 48      # /*  A B C   R(A) := R(A)*R(A+1) (mSyms[B]=:*,C=1)           */
+    OP_DIV = 49      # /*  A B C   R(A) := R(A)/R(A+1) (mSyms[B]=:/,C=1)           */
+    OP_EQ = 50       # /*  A B C   R(A) := R(A)==R(A+1) (mSyms[B]=:==,C=1)         */
+    OP_LT = 51       # /*  A B C   R(A) := R(A)<R(A+1)  (mSyms[B]=:<,C=1)          */
+    OP_LE = 52       # /*  A B C   R(A) := R(A)<=R(A+1) (mSyms[B]=:<=,C=1)         */
+    OP_GT = 53       # /*  A B C   R(A) := R(A)>R(A+1)  (mSyms[B]=:>,C=1)          */
+    OP_GE = 54       # /*  A B C   R(A) := R(A)>=R(A+1) (mSyms[B]=:>=,C=1)         */
 
-    OP_ARRAY = 55    # /*     A B C   R(A) := ary_new(R(B),R(B+1)..R(B+C))            */
-    OP_ARYCAT = 56   # /*    A B     ary_cat(R(A),R(B))                              */
-    OP_ARYPUSH = 57  # /*   A B     ary_push(R(A),R(B))                             */
-    OP_AREF = 58     # /*      A B C   R(A) := R(B)[C]                                 */
-    OP_ASET = 59     # /*      A B C   R(B)[C] := R(A)                                 */
-    OP_APOST = 60    # /*     A B C   *R(A),R(A+1)..R(A+C) := R(A)                    */
+    OP_ARRAY = 55    # /*  A B C   R(A) := ary_new(R(B),R(B+1)..R(B+C))            */
+    OP_ARYCAT = 56   # /*  A B     ary_cat(R(A),R(B))                              */
+    OP_ARYPUSH = 57  # /*  A B     ary_push(R(A),R(B))                             */
+    OP_AREF = 58     # /*  A B C   R(A) := R(B)[C]                                 */
+    OP_ASET = 59     # /*  A B C   R(B)[C] := R(A)                                 */
+    OP_APOST = 60    # /*  A B C   *R(A),R(A+1)..R(A+C) := R(A)                    */
 
-    OP_STRING = 61   # /*    A Bx    R(A) := str_dup(Lit(Bx))                        */
-    OP_STRCAT = 62   # /*    A B     str_cat(R(A),R(B))                              */
+    OP_STRING = 61   # /*  A Bx    R(A) := str_dup(Lit(Bx))                        */
+    OP_STRCAT = 62   # /*  A B     str_cat(R(A),R(B))                              */
 
-    OP_HASH = 63     # /*      A B C   R(A) := hash_new(R(B),R(B+1)..R(B+C))           */
-    OP_LAMBDA = 64   # /*    A Bz Cz R(A) := lambda(SEQ[Bz],Cm)                      */
-    OP_RANGE = 65    # /*     A B C   R(A) := range_new(R(B),R(B+1),C)                */
+    OP_HASH = 63     # /*  A B C   R(A) := hash_new(R(B),R(B+1)..R(B+C))           */
+    OP_LAMBDA = 64   # /*  A Bz Cz R(A) := lambda(SEQ[Bz],Cm)                      */
+    OP_RANGE = 65    # /*  A B C   R(A) := range_new(R(B),R(B+1),C)                */
 
-    OP_OCLASS = 66   # /*    A       R(A) := ::Object                                */
-    OP_CLASS = 67    # /*     A B     R(A) := newclass(R(A),mSym(B),R(A+1))           */
-    OP_MODULE = 68   # /*    A B     R(A) := newmodule(R(A),mSym(B))                 */
-    OP_EXEC = 69     # /*      A Bx    R(A) := blockexec(R(A),SEQ[Bx])                 */
-    OP_METHOD = 70   # /*    A B     R(A).newmethod(mSym(B),R(A+1))                  */
-    OP_SCLASS = 71   # /*    A B     R(A) := R(B).singleton_class                    */
-    OP_TCLASS = 72   # /*    A       R(A) := target_class                            */
+    OP_OCLASS = 66   # /*  A       R(A) := ::Object                                */
+    OP_CLASS = 67    # /*  A B     R(A) := newclass(R(A),mSym(B),R(A+1))           */
+    OP_MODULE = 68   # /*  A B     R(A) := newmodule(R(A),mSym(B))                 */
+    OP_EXEC = 69     # /*  A Bx    R(A) := blockexec(R(A),SEQ[Bx])                 */
+    OP_METHOD = 70   # /*  A B     R(A).newmethod(mSym(B),R(A+1))                  */
+    OP_SCLASS = 71   # /*  A B     R(A) := R(B).singleton_class                    */
+    OP_TCLASS = 72   # /*  A       R(A) := target_class                            */
 
-    OP_DEBUG = 73    # /*     A       print R(A)                                      */
-    OP_STOP = 74     # /*              stop VM                                         */
-    OP_ERR = 75      # /*       Bx      raise RuntimeError with message Lit(Bx)         */
+    OP_DEBUG = 73    # /*  A       print R(A)                                      */
+    OP_STOP = 74     # /*          stop VM                                         */
+    OP_ERR = 75      # /*  Bx      raise RuntimeError with message Lit(Bx)         */
 
-    OP_RSVD1 = 76    # /*             reserved instruction #1                         */
-    OP_RSVD2 = 77    # /*             reserved instruction #2                         */
-    OP_RSVD3 = 78    # /*             reserved instruction #3                         */
-    OP_RSVD4 = 79    # /*             reserved instruction #4                         */
-    OP_RSVD5 = 80    # /*             reserved instruction #5                         */
+    OP_RSVD1 = 76    # /*          reserved instruction #1                         */
+    OP_RSVD2 = 77    # /*          reserved instruction #2                         */
+    OP_RSVD3 = 78    # /*          reserved instruction #3                         */
+    OP_RSVD4 = 79    # /*          reserved instruction #4                         */
+    OP_RSVD5 = 80    # /*          reserved instruction #5                         */
 
 
     OP_R_NORMAL = 0

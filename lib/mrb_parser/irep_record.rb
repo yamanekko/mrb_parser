@@ -86,8 +86,7 @@ class MrbParser
       printf_indent n, "regs  : %d\n", @nregs
       printf_indent n, "iseqs : %d\n", @iseq.size
       @iseq.each_with_index do |code, i|
-        printf_indent n, "  code: %08x\n", code
-        printf_indent n, "        "
+        printf_indent n, "  code: %08x ", code
         code_dump.dump(code, i)
       end
       printf_indent n, "pools : %d\n", @pool.size
